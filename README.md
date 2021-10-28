@@ -26,13 +26,13 @@ Here are some ideas to get you started:
 
 - 💬 Ask me about **whatever you want, if I can help you I will be happy to do so.**
 
-- 📫 How to reach me **hello@davidmrgaona.com**
+- 📫 How to reach me: **hello@davidmrgaona.com**
 
 - ⚡ Fun fact **I love listening to music but I often switch from one song to another without letting it end.**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://twitter.com/sqmbra" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="sqmbra" height="30" width="40" /></a>
+<a href="https://twitter.com/davidmrgaona" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="davidmrgaona" height="30" width="40" /></a>
 <a href="https://linkedin.com/in/https://www.linkedin.com/in/davidmanuelramosgaona/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/davidmanuelramosgaona/" height="30" width="40" /></a>
 </p>
 
