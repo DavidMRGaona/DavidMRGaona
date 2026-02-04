@@ -37,8 +37,8 @@ jobs:
       # ── Streak stats ────────────────────────────────────────────
       - name: Fetch streak stats
         run: |
-          curl -sf --max-time 30 -o /tmp/streak.svg \
-            "https://streak-stats.demolab.com/?user=${{ github.repository_owner }}&theme=tokyonight&hide_border=true"
+          curl -s --max-time 30 -o /tmp/streak.svg \
+            "https://streak-stats.demolab.com/?user=${{ github.repository_owner }}&theme=tokyonight&hide_border=true" || true
           if grep -q '<svg' /tmp/streak.svg 2>/dev/null; then
             mv /tmp/streak.svg profile/streak.svg
           fi
@@ -46,8 +46,8 @@ jobs:
       # ── Trophies ────────────────────────────────────────────────
       - name: Fetch trophies
         run: |
-          curl -sf --max-time 30 -o /tmp/trophies.svg \
-            "https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=tokyonight&no-frame=true&no-bg=false&margin-w=4&row=1"
+          curl -s --max-time 30 -o /tmp/trophies.svg \
+            "https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=tokyonight&no-frame=true&no-bg=false&margin-w=4&row=1" || true
           if grep -q '<svg' /tmp/trophies.svg 2>/dev/null; then
             mv /tmp/trophies.svg profile/trophies.svg
           fi
