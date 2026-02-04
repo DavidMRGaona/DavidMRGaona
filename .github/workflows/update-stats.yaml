@@ -34,23 +34,55 @@ jobs:
           path: profile/top-langs.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
 
-      # ── Streak stats ────────────────────────────────────────────
+      # ── Streak stats (with fallbacks) ───────────────────────────
       - name: Fetch streak stats
         run: |
-          curl -s --max-time 30 -o /tmp/streak.svg \
-            "https://streak-stats.demolab.com/?user=${{ github.repository_owner }}&theme=tokyonight&hide_border=true" || true
-          if grep -q '<svg' /tmp/streak.svg 2>/dev/null; then
-            mv /tmp/streak.svg profile/streak.svg
-          fi
+          USERNAME="${{ github.repository_owner }}"
+          PARAMS="theme=tokyonight&hide_border=true"
+          ENDPOINTS=(
+            "https://streak-stats.demolab.com"
+            "https://github-readme-streak-stats.herokuapp.com"
+          )
 
-      # ── Trophies ────────────────────────────────────────────────
+          for url in "${ENDPOINTS[@]}"; do
+            echo "Trying streak: $url"
+            curl -s --max-time 30 -o /tmp/streak.svg "${url}/?user=${USERNAME}&${PARAMS}" || true
+            if grep -q '<svg' /tmp/streak.svg 2>/dev/null; then
+              echo "Success from $url"
+              mv /tmp/streak.svg profile/streak.svg
+              break
+            else
+              echo "Failed from $url"
+              rm -f /tmp/streak.svg
+            fi
+          done
+
+      # ── Trophies (with fallbacks) ───────────────────────────────
       - name: Fetch trophies
         run: |
-          curl -s --max-time 30 -o /tmp/trophies.svg \
-            "https://github-profile-trophy.vercel.app/?username=${{ github.repository_owner }}&theme=tokyonight&no-frame=true&no-bg=false&margin-w=4&row=1" || true
-          if grep -q '<svg' /tmp/trophies.svg 2>/dev/null; then
-            mv /tmp/trophies.svg profile/trophies.svg
-          fi
+          USERNAME="${{ github.repository_owner }}"
+          PARAMS="theme=tokyonight&no-frame=true&no-bg=false&margin-w=4&row=1"
+          ENDPOINTS=(
+            "https://github-profile-trophy.vercel.app"
+            "https://github-profile-trophy-liard-delta.vercel.app"
+            "https://github-profile-trophy-fork-two.vercel.app"
+            "https://github-profile-trophy-winning.vercel.app"
+            "https://github-profile-trophy-kannan.vercel.app"
+            "https://github-trophies.vercel.app"
+          )
+
+          for url in "${ENDPOINTS[@]}"; do
+            echo "Trying trophies: $url"
+            curl -s --max-time 30 -o /tmp/trophies.svg "${url}/?username=${USERNAME}&${PARAMS}" || true
+            if grep -q '<svg' /tmp/trophies.svg 2>/dev/null; then
+              echo "Success from $url"
+              mv /tmp/trophies.svg profile/trophies.svg
+              break
+            else
+              echo "Failed from $url"
+              rm -f /tmp/trophies.svg
+            fi
+          done
 
       # ── Commit & push ───────────────────────────────────────────
       - name: Commit and push changes
