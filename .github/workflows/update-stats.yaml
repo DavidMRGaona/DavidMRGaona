@@ -72,6 +72,136 @@ jobs:
               echo "Trying streak ($variant): $url"
               curl -s --max-time 30 -o /tmp/streak.svg "${url}/?user=${USERNAME}&${PARAMS}" || true
               if grep -q '<svg' /tmp/streak.svg 2>/dev/null; then
+                echo "✅ Success from $url"
+                mv /tmp/streak.svg "profile/streak-${variant}.svg"
+                break
+              else
+                echo "❌ Failed from $url"
+                rm -f /tmp/streak.svg
+              fi
+            done
+          done
+
+      # ── Trophies (dark + light, with fallbacks) ─────────────────
+      - name: Fetch trophies
+        run: |
+          USERNAME="${{ github.repository_owner }}"
+          TROPHY_ENDPOINTS=(
+            "https://github-profile-trophy.vercel.app"
+            "https://github-profile-trophy-liard-delta.vercel.app"
+            "https://github-profile-trophy-fork-two.vercel.app"
+            "https://github-profile-trophy-winning.vercel.app"
+            "https://github-profile-trophy-kannan.vercel.app"
+            "https://github-trophies.vercel.app"
+          )
+
+          for variant in dark light; do
+            if [ "$variant" = "dark" ]; then
+              PARAMS="theme=tokyonight&no-frame=true&no-bg=false&margin-w=4&row=1"
+            else
+              PARAMS="theme=flat&no-frame=true&no-bg=false&margin-w=4&row=1"
+            fi
+
+            for url in "${TROPHY_ENDPOINTS[@]}"; do
+              echo "Trying trophies ($variant): $url"
+              curl -s --max-time 30 -o /tmp/trophies.svg "${url}/?username=${USERNAME}&${PARAMS}" || true
+              if grep -q '<svg' /tmp/trophies.svg 2>/dev/null; then
+                echo "✅ Success from $url"
+                mv /tmp/trophies.svg "profile/trophies-${variant}.svg"
+                break
+              else
+                echo "❌ Failed from $url"
+                rm -f /tmp/trophies.svg
+              fi
+            done
+          done
+
+      # ── Commit & push ───────────────────────────────────────────
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add profile/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update GitHub stats"
+            git pull --rebase
+            git push
+          finame: Update GitHub Stats
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create profile directory
+        run: mkdir -p profile
+
+      # ── Stats card (dark) ───────────────────────────────────────
+      - name: Generate stats card (dark)
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: stats
+          options: "username=${{ github.repository_owner }}&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true"
+          path: profile/stats-dark.svg
+          token: ${{ secrets.GH_STATS_TOKEN }}
+
+      # ── Stats card (light) ──────────────────────────────────────
+      - name: Generate stats card (light)
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: stats
+          options: "username=${{ github.repository_owner }}&show_icons=true&theme=default&hide_border=true&count_private=true&include_all_commits=true"
+          path: profile/stats-light.svg
+          token: ${{ secrets.GH_STATS_TOKEN }}
+
+      # ── Top languages card (dark) ───────────────────────────────
+      - name: Generate top languages card (dark)
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: top-langs
+          options: "username=${{ github.repository_owner }}&layout=compact&theme=tokyonight&hide_border=true"
+          path: profile/top-langs-dark.svg
+          token: ${{ secrets.GH_STATS_TOKEN }}
+
+      # ── Top languages card (light) ──────────────────────────────
+      - name: Generate top languages card (light)
+        uses: readme-tools/github-readme-stats-action@v1
+        with:
+          card: top-langs
+          options: "username=${{ github.repository_owner }}&layout=compact&theme=default&hide_border=true"
+          path: profile/top-langs-light.svg
+          token: ${{ secrets.GH_STATS_TOKEN }}
+
+      # ── Streak stats (dark + light, with fallbacks) ─────────────
+      - name: Fetch streak stats
+        run: |
+          USERNAME="${{ github.repository_owner }}"
+          STREAK_ENDPOINTS=(
+            "https://streak-stats.demolab.com"
+            "https://github-readme-streak-stats-eight.vercel.app"
+          )
+
+          for variant in dark light; do
+            if [ "$variant" = "dark" ]; then
+              PARAMS="theme=tokyonight&hide_border=true"
+            else
+              PARAMS="theme=default&hide_border=true"
+            fi
+
+            for url in "${STREAK_ENDPOINTS[@]}"; do
+              echo "Trying streak ($variant): $url"
+              curl -s --max-time 30 -o /tmp/streak.svg "${url}/?user=${USERNAME}&${PARAMS}" || true
+              if grep -q '<svg' /tmp/streak.svg 2>/dev/null; then
                 echo "Success from $url"
                 mv /tmp/streak.svg "profile/streak-${variant}.svg"
                 break
@@ -126,5 +256,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: update GitHub stats"
+            git pull --rebase
             git push
           fi
