@@ -39,16 +39,32 @@
 
 ## 📊 GitHub stats
 <p align="center">
-  <img src="./profile/stats.svg" alt="GitHub Stats" height="170" />
-  <img src="./profile/top-langs.svg" alt="Top Languages" height="170" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile/stats-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./profile/stats-light.svg" />
+    <img alt="GitHub Stats" src="./profile/stats-dark.svg" height="170" />
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile/top-langs-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./profile/top-langs-light.svg" />
+    <img alt="Top Languages" src="./profile/top-langs-dark.svg" height="170" />
+  </picture>
 </p>
 <p align="center">
-  <img src="./profile/streak.svg" alt="GitHub Streak" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile/streak-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./profile/streak-light.svg" />
+    <img alt="GitHub Streak" src="./profile/streak-dark.svg" />
+  </picture>
 </p>
 
 ## 🏆 GitHub trophies
 <p align="center">
-  <img src="./profile/trophies.svg" alt="GitHub Trophies" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./profile/trophies-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="./profile/trophies-light.svg" />
+    <img alt="GitHub Trophies" src="./profile/trophies-dark.svg" />
+  </picture>
 </p>
 
 ## 🐍 Contribution graph
