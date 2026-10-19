@@ -18,39 +18,51 @@ jobs:
 
       # ── Stats card (dark) ───────────────────────────────────────
       - name: Generate stats card (dark)
+        id: stats_dark
+        continue-on-error: true
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: stats
           options: "username=${{ github.repository_owner }}&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true"
           path: profile/stats-dark.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
+          fail_on_error: "true"
 
       # ── Stats card (light) ──────────────────────────────────────
       - name: Generate stats card (light)
+        id: stats_light
+        continue-on-error: true
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: stats
           options: "username=${{ github.repository_owner }}&show_icons=true&theme=default&hide_border=true&count_private=true&include_all_commits=true"
           path: profile/stats-light.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
+          fail_on_error: "true"
 
       # ── Top languages card (dark) ───────────────────────────────
       - name: Generate top languages card (dark)
+        id: langs_dark
+        continue-on-error: true
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: top-langs
           options: "username=${{ github.repository_owner }}&layout=compact&theme=tokyonight&hide_border=true"
           path: profile/top-langs-dark.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
+          fail_on_error: "true"
 
       # ── Top languages card (light) ──────────────────────────────
       - name: Generate top languages card (light)
+        id: langs_light
+        continue-on-error: true
         uses: readme-tools/github-readme-stats-action@v1
         with:
           card: top-langs
           options: "username=${{ github.repository_owner }}&layout=compact&theme=default&hide_border=true"
           path: profile/top-langs-light.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
+          fail_on_error: "true"
 
       # ── Streak stats (dark + light, with fallbacks) ─────────────
       - name: Fetch streak stats
@@ -129,3 +141,14 @@ jobs:
             git pull --rebase
             git push
           fi
+
+      # ── Surface broken cards (previous SVGs are kept) ───────────
+      - name: Fail if any stats card failed
+        if: >-
+          steps.stats_dark.outcome == 'failure' ||
+          steps.stats_light.outcome == 'failure' ||
+          steps.langs_dark.outcome == 'failure' ||
+          steps.langs_light.outcome == 'failure'
+        run: |
+          echo "::error::Some stats cards could not be generated. Check that GH_STATS_TOKEN is valid and not expired."
+          exit 1
