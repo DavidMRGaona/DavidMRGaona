@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Create profile directory
         run: mkdir -p profile
@@ -23,7 +23,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2.1.0
         with:
           card: stats
-          options: "username=${{ github.repository_owner }}&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true"
+          options: "username=${{ github.repository_owner }}&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true&hide_rank=true"
           path: profile/stats-dark.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: "true"
@@ -35,7 +35,7 @@ jobs:
         uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2.1.0
         with:
           card: stats
-          options: "username=${{ github.repository_owner }}&show_icons=true&theme=default&hide_border=true&count_private=true&include_all_commits=true"
+          options: "username=${{ github.repository_owner }}&show_icons=true&theme=default&hide_border=true&count_private=true&include_all_commits=true&hide_rank=true"
           path: profile/stats-light.svg
           token: ${{ secrets.GH_STATS_TOKEN }}
           fail_on_error: "true"
@@ -100,11 +100,6 @@ jobs:
           USERNAME="${{ github.repository_owner }}"
           TROPHY_ENDPOINTS=(
             "https://github-profile-trophy.vercel.app"
-            "https://github-profile-trophy-liard-delta.vercel.app"
-            "https://github-profile-trophy-fork-two.vercel.app"
-            "https://github-profile-trophy-winning.vercel.app"
-            "https://github-profile-trophy-kannan.vercel.app"
-            "https://github-trophies.vercel.app"
           )
 
           for variant in dark light; do
