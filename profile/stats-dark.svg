@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">David Manuel Ramos Gaona&#39;s GitHub Stats, Rank: B+</title>
-        <desc id="descId">Total Stars Earned: 2, Total Commits  : 2584, Total PRs: 619, Total Issues: 186, Contributed to (last year): 4</desc>
+        <desc id="descId">Total Stars Earned: 2, Total Commits  : 2641, Total PRs: 631, Total Issues: 206, Contributed to (last year): 4</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 124.72671759863846;
+        stroke-dashoffset: 124.40294166971758;
       }
     }
   
@@ -188,7 +188,7 @@
         x="224.01"
         y="12.5"
         data-testid="prs"
-      >619</text>
+      >631</text>
     </g>
   </g><g transform="translate(0, 75)">
     <g class="stagger" style="animation-delay: 900ms" transform="translate(25, 0)">
@@ -203,7 +203,7 @@
         x="224.01"
         y="12.5"
         data-testid="issues"
-      >186</text>
+      >206</text>
     </g>
   </g><g transform="translate(0, 100)">
     <g class="stagger" style="animation-delay: 1050ms" transform="translate(25, 0)">
